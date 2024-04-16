@@ -1,0 +1,6 @@
+library(reticulate)
+py_install("numpy==1.26.4")
+py_install('pandas==2.2.2')
+py_install('matplotlib==3.8.4')
+py_run_file('function_library.py')
+py_run_file('main.py')
