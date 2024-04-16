@@ -106,14 +106,23 @@ def RunSimulation(nOrders,sims,SmallestUtil):
                     else:
                         #print (' it is the 3')
                         sum_util[k]+= SmallestUtil*normedSamples[i]
-            sim_data_maxlist = sim_data_maxlist.append({'sim': sim, 'all first': maxlistExtend[0], 'all both': maxlistExtend[1], 
-                                            **{f'{p:.1f} certain': maxlistExtend[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)}}, 
-                                           ignore_index=True)
 
+            row_data_maxlist = {'sim': sim, 'all first': maxlistExtend[0], 'all both': maxlistExtend[1]}
+            row_data_maxlist.update({f'{p:.1f} certain': maxlistExtend[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)})
 
-            sim_data_sum_util = sim_data_sum_util.append({'sim': sim, 'all first': sum_util[0], 'all both': sum_util[1], 
-                                              **{f'{p:.1f} certain': sum_util[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)}}, 
-                                             ignore_index=True)
+            row_data_sum_util = {'sim': sim, 'all first': sum_util[0], 'all both': sum_util[1]}
+            row_data_sum_util.update({f'{p:.1f} certain': sum_util[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)})
+
+            # sim_data_maxlist = sim_data_maxlist.append({'sim': sim, 'all first': maxlistExtend[0], 'all both': maxlistExtend[1], 
+            #                                 **{f'{p:.1f} certain': maxlistExtend[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)}}, 
+            #                                ignore_index=True)
+            sim_data_maxlist = pd.concat([sim_data_maxlist, pd.DataFrame([row_data_maxlist])], ignore_index=True)
+            sim_data_sum_util = pd.concat([sim_data_sum_util, pd.DataFrame([row_data_sum_util])], ignore_index=True)
+ 
+
+            # sim_data_sum_util = sim_data_sum_util.append({'sim': sim, 'all first': sum_util[0], 'all both': sum_util[1], 
+            #                                   **{f'{p:.1f} certain': sum_util[i] for i, p in enumerate(np.arange(0, 1.1, 0.5), start=2)}}, 
+            #                                  ignore_index=True)
     
     return count, sim_data_maxlist, sim_data_sum_util
     
